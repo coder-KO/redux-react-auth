@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { signup } from '../../actions/auth.actions';
+import { registerAction } from '../../_actions/auth.actions';
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const [user, setUser] = React.useState({
     name: '',
@@ -13,18 +15,29 @@ const Signup = () => {
     password: '',
   });
 
-  console.log(auth._id);
+  // if (auth._id) navigate('/dashboard');
+  console.log(auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signup(user));
+    dispatch(registerAction(user));
     setUser({
       name: '',
       userId: '',
       role: '',
       password: '',
     });
+    if (auth.isLoggedIn) {
+      navigate('/dashboard');
+      window.location.reload();
+    }
   };
+
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      return navigate('/dashboard');
+    }
+  });
 
   return (
     <>

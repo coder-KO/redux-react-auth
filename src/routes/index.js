@@ -1,5 +1,6 @@
 const routes = {
   // Root
+  landing: '/',
   login: '/login',
   signup: '/signup',
   dashboard: '/dashboard',

@@ -1,13 +1,13 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { signin } from '../../actions/auth.actions';
+import { loginAction } from '../../_actions/auth.actions';
 
 const Login = () => {
   const dispatch = useDispatch();
-  // const auth = useSelector((state) => state.auth);
-  const state = useSelector((state) => state);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [creds, setCreds] = React.useState({
     userId: '',
     password: '',
@@ -15,16 +15,14 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signin(creds));
+    setLoading(true);
+    dispatch(loginAction(creds));
     setCreds({
       userId: '',
       password: '',
     });
+    navigate('/dashboard');
   };
-
-  console.log(state);
-
-  // if (auth._id) <Navigate to='/' />;
 
   return (
     <>
@@ -49,7 +47,11 @@ const Login = () => {
         />
         <br />
         <br />
-        <input type='submit' />
+        <input
+          type='submit'
+          value={loading ? 'Loading...' : 'Submit'}
+          disabled={loading}
+        />
       </form>
     </>
   );

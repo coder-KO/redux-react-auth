@@ -3,17 +3,27 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import routes from './routes';
 
+// Actions
+// import { loadUser } from './actions/auth.actions';
+
 // Layouts
-// import AuthLayout from './layouts/AuthLayout';
+import AuthLayout from './layouts/AuthLayout';
 import PublicLayout from './layouts/PublicLayout';
 
 // Pages
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import PageNotFound from './pages/PageNotFound';
+import Dashboard from './pages/Dashboard';
 
 const pages = [
   // Public Pages
+  {
+    path: routes.landing,
+    page: Landing,
+    layout: PublicLayout,
+  },
   {
     path: routes.login,
     page: Login,
@@ -23,6 +33,12 @@ const pages = [
     path: routes.signup,
     page: Signup,
     layout: PublicLayout,
+  },
+  // Protected Pages
+  {
+    path: routes.dashboard,
+    page: Dashboard,
+    layout: AuthLayout,
   },
 ];
 
