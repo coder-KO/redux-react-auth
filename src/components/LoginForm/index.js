@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { loginAction } from '../../_actions/auth.actions';
 
-const Login = ({ loginAction, auth }) => {
+const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
   const [creds, setCreds] = React.useState({
     userId: '',
     password: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    await loginAction(creds);
+    dispatch(loginAction(creds));
     setCreds({
       userId: '',
       password: '',
@@ -24,11 +26,11 @@ const Login = ({ loginAction, auth }) => {
   };
 
   useEffect(() => {
-    if (auth.isLoggedIn) {
+    if (isLoggedIn) {
       navigate('/dashboard');
     }
     //eslint-disable-next-line
-  }, [auth.isLoggedIn]);
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -67,8 +69,4 @@ const Login = ({ loginAction, auth }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { loginAction })(Login);
+export default Login;

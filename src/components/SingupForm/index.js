@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -7,7 +7,8 @@ import { registerAction } from '../../_actions/auth.actions';
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = React.useState({
     name: '',
     userId: '',
@@ -15,11 +16,9 @@ const Signup = () => {
     password: '',
   });
 
-  // if (auth._id) navigate('/dashboard');
-  console.log(auth);
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     dispatch(registerAction(user));
     setUser({
       name: '',
@@ -27,17 +26,15 @@ const Signup = () => {
       role: '',
       password: '',
     });
-    if (auth.isLoggedIn) {
-      navigate('/dashboard');
-      window.location.reload();
-    }
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (auth.isLoggedIn) {
-      return navigate('/dashboard');
+    if (isLoggedIn) {
+      navigate('/dashboard');
     }
-  });
+    // eslint-disable-next-line
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -90,7 +87,12 @@ const Signup = () => {
         <Link to='/login' style={{ float: 'left', textDecoration: 'none' }}>
           Login
         </Link>
-        <input style={{ float: 'right' }} type='submit' />
+        <input
+          style={{ float: 'right' }}
+          type='submit'
+          value={loading ? 'Submitting...' : 'Submit'}
+          disabled={loading}
+        />
       </form>
     </>
   );
