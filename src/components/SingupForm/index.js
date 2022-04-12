@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { registerAction } from '../../_actions/auth.actions';
 
@@ -80,13 +80,17 @@ const Signup = () => {
             let val = e.target.value;
             setUser({ ...user, role: val });
           }}
+          style={{ width: '100%' }}
         >
           <option value=''>SELECT</option>
           <option value='admin'>Admin</option>
         </select>
         <br />
         <br />
-        <input type='submit' />
+        <Link to='/login' style={{ float: 'left', textDecoration: 'none' }}>
+          Login
+        </Link>
+        <input style={{ float: 'right' }} type='submit' />
       </form>
     </>
   );

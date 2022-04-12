@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { loginAction } from '../../_actions/auth.actions';
 
-const Login = () => {
-  const dispatch = useDispatch();
+const Login = ({ loginAction, auth }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [creds, setCreds] = React.useState({
@@ -13,16 +12,23 @@ const Login = () => {
     password: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    dispatch(loginAction(creds));
+    await loginAction(creds);
     setCreds({
       userId: '',
       password: '',
     });
-    navigate('/dashboard');
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (auth.isLoggedIn) {
+      navigate('/dashboard');
+    }
+    //eslint-disable-next-line
+  }, [auth.isLoggedIn]);
 
   return (
     <>
@@ -47,14 +53,22 @@ const Login = () => {
         />
         <br />
         <br />
+        <Link to='/signup' style={{ float: 'left', textDecoration: 'none' }}>
+          Register
+        </Link>
         <input
           type='submit'
           value={loading ? 'Loading...' : 'Submit'}
           disabled={loading}
+          style={{ float: 'right' }}
         />
       </form>
     </>
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loginAction })(Login);

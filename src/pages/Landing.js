@@ -25,7 +25,7 @@ const Landing = () => {
       <div style={{ display: 'flex', marginTop: -32 }}>
         <h4 style={{ padding: 16 }}>
           {auth.isLoggedIn ? (
-            <>Logged in as {auth.userData.user.name}</>
+            <>Logged in as {auth.userData.name}</>
           ) : (
             <Link to='/login'>Login</Link>
           )}

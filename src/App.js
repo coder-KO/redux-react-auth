@@ -3,9 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import routes from './routes';
 
-// Actions
-// import { loadUser } from './actions/auth.actions';
-
 // Layouts
 import AuthLayout from './layouts/AuthLayout';
 import PublicLayout from './layouts/PublicLayout';

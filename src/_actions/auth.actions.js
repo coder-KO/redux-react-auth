@@ -14,10 +14,11 @@ export const registerAction = (userData) => async (dispatch) => {
 
     dispatch({
       type: REGISTER_SUCCESS,
+      payload: response,
     });
     dispatch({
       type: SET_ALERT,
-      payload: response.data.message,
+      payload: response.message,
     });
   } catch (error) {
     dispatch({
@@ -36,10 +37,11 @@ export const loginAction = (creds) => async (dispatch) => {
 
     dispatch({
       type: LOGIN_SUCCESS,
+      payload: response,
     });
     dispatch({
       type: SET_ALERT,
-      payload: response.data.message,
+      payload: response.message,
     });
   } catch (error) {
     dispatch({
@@ -49,6 +51,7 @@ export const loginAction = (creds) => async (dispatch) => {
       type: SET_ALERT,
       payload: error.toString(),
     });
+    console.log('ERROR', error);
   }
 };
 
