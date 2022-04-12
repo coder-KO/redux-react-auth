@@ -28,10 +28,17 @@ const Dashboard = () => {
 
         <div style={{ display: 'flex', marginTop: -32 }}>
           <h4 style={{ padding: 16 }}>
-            <Link to='/'>Home</Link>
+            <Link to='/' style={{ textDecoration: 'none' }}>
+              Home
+            </Link>
           </h4>
           <h4 style={{ padding: 16 }}>
-            <>Logged in as {auth.userData.name}</>
+            <Link to='/dashboard/settings' style={{ textDecoration: 'none' }}>
+              Settings
+            </Link>
+          </h4>
+          <h4 style={{ padding: 16 }}>
+            <>{auth.userData.user.name}</>
           </h4>
           <h4 style={{ padding: 16 }}>
             <span onClick={logout} style={{ cursor: 'pointer' }}>

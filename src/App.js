@@ -6,16 +6,19 @@ import routes from './routes';
 // Layouts
 import AuthLayout from './layouts/AuthLayout';
 import PublicLayout from './layouts/PublicLayout';
+import PrivateOutlet from './routes/PrivateOutlet';
 
-// Pages
+// Public Pages
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import PageNotFound from './pages/PageNotFound';
-import Dashboard from './pages/Dashboard';
 
-const pages = [
-  // Public Pages
+// Private Pages
+import Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
+
+const publicPages = [
   {
     path: routes.landing,
     page: Landing,
@@ -31,10 +34,17 @@ const pages = [
     page: Signup,
     layout: PublicLayout,
   },
-  // Protected Pages
+];
+
+const privatePages = [
   {
     path: routes.dashboard,
     page: Dashboard,
+    layout: AuthLayout,
+  },
+  {
+    path: routes.settings,
+    page: Settings,
     layout: AuthLayout,
   },
 ];
@@ -43,13 +53,28 @@ function App() {
   return (
     <Router>
       <Routes>
-        {pages.map(({ path, page: Page, layout: Layout }) => (
+        {/* Mapping Public Routes */}
+        {publicPages.map(({ path, page: Page, layout: Layout }) => (
           <Route
             path={path}
             element={
               <Layout>
                 <Page />
               </Layout>
+            }
+          />
+        ))}
+
+        {/* Mapping Private Routes */}
+        {privatePages.map(({ path, page: Page, layout: Layout }) => (
+          <Route
+            path={path}
+            element={
+              <PrivateOutlet>
+                <Layout>
+                  <Page />
+                </Layout>
+              </PrivateOutlet>
             }
           />
         ))}

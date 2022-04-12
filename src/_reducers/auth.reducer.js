@@ -18,7 +18,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        userData: payload.user,
+        userData: payload,
       };
     case REGISTER_FAIL:
       return {
@@ -26,11 +26,10 @@ const authReducer = (state = initialState, action) => {
         isLoggedIn: false,
       };
     case LOGIN_SUCCESS:
-      console.log('PAYLOAD', payload);
       return {
         ...state,
         isLoggedIn: true,
-        userData: payload.user,
+        userData: payload,
       };
     case LOGIN_FAIL:
       return {
